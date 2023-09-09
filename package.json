@@ -1,0 +1,27 @@
+{
+  "name": "pathologytest",
+  "version": "1.0.0",
+  "description": "Read in Pathology FHIR bundle message and convert in to HTML",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grahamd99/pathologytest.git"
+  },
+  "author": "Graham Dodsworth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grahamd99/pathologytest/issues"
+  },
+  "homepage": "https://github.com/grahamd99/pathologytest#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "handlebars": "^4.7.8",
+    "util": "^0.12.5",
+    "xml2js": "^0.6.2"
+  }
+}
