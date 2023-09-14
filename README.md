@@ -5,3 +5,6 @@ FHIR bundles from here -> https://simplifier.net/guide/pathology-fhir-implementa
 
 Example:
 https://simplifier.net/guide/pathology-fhir-implementation-guide/Home/Examples/All-Examples/R4-Examples/HPV-Primary-Screening-Report?version=0.1
+
+Handlebars tutorial
+https://stackabuse.com/guide-to-handlebars-templating-engine-for-node/
