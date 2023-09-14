@@ -19,6 +19,7 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
     "fs": "^0.0.1-security",
     "handlebars": "^4.7.8",
     "util": "^0.12.5",

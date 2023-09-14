@@ -1,19 +1,21 @@
 //const Handlebars = require("handlebars");
 //const template = Handlebars.compile("Name: {{name}}");
 //console.log(template({ name: "Nils" }));
-const hbs = require('hbs')
+//const hbs = require('hbs')
 
+//https://waelyasmina.medium.com/a-guide-into-using-handlebars-with-your-express-js-application-22b944443b65
+
+   //  xml2js  = require('xml2js'), 
 
 var fs      = require('fs'),
     util    = require('util'),
-    xml2js  = require('xml2js'),
-    express = require("express"),
-    bodyParser = require("body-parser");
+    express = require('express'),
+    handlebars = require('express-handlebars'),
+    bodyParser = require('body-parser');
  
-var parser = new xml2js.Parser();
+//var parser = new xml2js.Parser();
 var app = express();
 var port = 3000;
-var fileToParse = "./public/examples/pathology_example1.json";
 
 //global.fileToValidate = "test.xml";
 
@@ -23,22 +25,41 @@ app.use(express.static("public"));
 app.use('/static', express.static('public'))
 
 app.use(bodyParser.urlencoded({extended: true}));
-app.set("view engine", "hbs");
+app.set('view engine', 'hbs');
+app.engine(
+    "hbs",
+    handlebars.engine({
+    layoutsDir: __dirname + "/views/layouts",
+    extname: "hbs",
+    defaultLayout: "main",
+  })
+);
 
-//var source = document.getElementById("entry-template").innerHTML;
-//var template = Handlebars.compile(source);
+const filePath = "./public/examples/pathology_example1.json";
 
+app.get("/",function(req,res){
 
-//var context = { title: "My New Post", body: "This is my first post!" };
-//var html = template(context);
+fs.readFile(filePath, 'utf8', (err, data) => {
+  if (err) {
+    console.error('Error reading the JSON file:', err);
+    return;
+  }
 
+  try {
+    const jsonObject = JSON.parse(data);
+    console.log('Parsed JSON data:', jsonObject);
 
-app.get('/', function(req, res){
-    res.render('Home', {
-       array: ['One', 'Two', 'Three', 'Four'],
-       message: 'Greetings from geekforgeeks'
-    })
-})
+    // Access properties of the object
+    console.log('The resource type is :', jsonObject.resourceType);
+    console.log('The ID is:', jsonObject.id);
+
+  } catch (parseError) {
+    console.error('Error parsing JSON:', parseError);
+  }
+});
+
+  res.render("home");
+});
 
 
 app.listen(port, () => console.log("Server started and listening on port " + port ));
