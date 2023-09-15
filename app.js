@@ -1,11 +1,4 @@
-//const Handlebars = require("handlebars");
-//const template = Handlebars.compile("Name: {{name}}");
-//console.log(template({ name: "Nils" }));
-//const hbs = require('hbs')
-
 //https://waelyasmina.medium.com/a-guide-into-using-handlebars-with-your-express-js-application-22b944443b65
-
-   //  xml2js  = require('xml2js'), 
 
 var fs      = require('fs'),
     util    = require('util'),
@@ -13,11 +6,8 @@ var fs      = require('fs'),
     handlebars = require('express-handlebars'),
     bodyParser = require('body-parser');
  
-//var parser = new xml2js.Parser();
 var app = express();
 var port = 3000;
-
-//global.fileToValidate = "test.xml";
 
 // Serve Static Assets
 app.use(express.static("public"));
@@ -46,19 +36,41 @@ fs.readFile(filePath, 'utf8', (err, data) => {
   }
 
   try {
-    const jsonObject = JSON.parse(data);
-    console.log('Parsed JSON data:', jsonObject);
+    const jsonParsed = JSON.parse(data);
+    //console.log('Parsed JSON data:', jsonParsed);
 
-    // Access properties of the object
-    console.log('The resource type is :', jsonObject.resourceType);
-    console.log('The ID is:', jsonObject.id);
+    // access elements to create variables
+    resourceType      = jsonParsed.resourceType;
+    profile           = jsonParsed.meta.profile[0];
+
+    console.log('The resource type is :', resourceType);
+    console.log('The profile is :', profile);
+
+    var keyCount  = Object.keys(jsonParsed).length;
+    console.log('Parsed JSON data:', keyCount);
+ 
+/*
+        for (i = 1; i <= keyCount; i++) {
+          console.log('i:', i);
+          console.log(jsonParsed[i]);
+        }
+*/
+
+      for(var i in jsonParsed) {
+        if ( jsonParsed[i] == "identifier" ){
+          console.log( "FOO!" );
+        }
+        console.log(i + ": " + jsonParsed[i]);
+      }
+
+      res.render("home", {profile: profile})
 
   } catch (parseError) {
     console.error('Error parsing JSON:', parseError);
   }
 });
 
-  res.render("home");
+
 });
 
 
