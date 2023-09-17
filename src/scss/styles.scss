@@ -1,0 +1,8 @@
+// styles.scss
+@import 'node_modules/nhsuk-frontend/packages/nhsuk'
+
+$primary-color: #3498db;
+body {
+  background-color: $primary-color;
+  color: white;
+}

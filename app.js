@@ -63,7 +63,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
         console.log(i + ": " + jsonParsed[i]);
       }
 
-      res.render("home", {profile: profile})
+      res.render("Home", {profile: profile})
 
   } catch (parseError) {
     console.error('Error parsing JSON:', parseError);
