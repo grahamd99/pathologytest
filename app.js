@@ -35,6 +35,12 @@ fs.readFile(filePath, 'utf8', (err, data) => {
     return;
   }
 
+  var patientProfile = '';
+  var patientNHS = '';
+  var specimenProfile = '';
+  var specimenTypeCode  = '';
+  var specimenTypeDesc  = '';
+
   try {
     const jsonParsed = JSON.parse(data);
     console.log('Parsed JSON data:', jsonParsed);
@@ -65,7 +71,8 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           // Access Patient information
           const fullUrl = entry.fullUrl;
           const messageId = entry.resource.id;
-          const patientProfile = entry.resource.meta.profile[0];
+          patientProfile  = entry.resource.meta.profile[0];
+          patientNHS      = entry.resource.identifier[0].value;
           console.log('Patient');
           console.log('Patient Profile:', patientProfile);
           console.log('---');
@@ -73,6 +80,9 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           console.log('Organization');
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'Specimen') {
+          specimenProfile   = entry.resource.meta.profile[0];
+          specimenTypeCode  = entry.resource.type.coding[0].code;
+          specimenTypeDesc  = entry.resource.type.coding[0].display;
           console.log('Specimen');
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'DiagnosticReport') {
@@ -93,7 +103,8 @@ fs.readFile(filePath, 'utf8', (err, data) => {
       console.log('Invalid JSON structure: Not a FHIR Bundle.');
     }
 
-    res.render("Home", {profile: profile})
+    res.render("Home", {profile: profile, patientProfile: patientProfile, patientNHS: patientNHS,
+                        specimenProfile: specimenProfile, specimenTypeCode: specimenTypeCode, specimenTypeDesc: specimenTypeDesc});
 
   } catch (parseError) {
     console.error('Error parsing JSON:', parseError);
