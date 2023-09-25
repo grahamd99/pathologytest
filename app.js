@@ -37,33 +37,63 @@ fs.readFile(filePath, 'utf8', (err, data) => {
 
   try {
     const jsonParsed = JSON.parse(data);
-    //console.log('Parsed JSON data:', jsonParsed);
+    console.log('Parsed JSON data:', jsonParsed);
 
     // access elements to create variables
     resourceType      = jsonParsed.resourceType;
     profile           = jsonParsed.meta.profile[0];
 
-    console.log('The resource type is :', resourceType);
-    console.log('The profile is :', profile);
+  // Check if the JSON has the expected structure
+    if (jsonParsed.resourceType === 'Bundle' && Array.isArray(jsonParsed.entry)) {
+      // Loop through the 'entry' array
+      jsonParsed.entry.forEach(entry => {
+        if (entry.resource && entry.resource.resourceType === 'MessageHeader') {
+          // Access MessageHeader information
+          const fullUrl = entry.fullUrl;
+          const messageId = entry.resource.id;
+          const profile = entry.resource.meta.profile[0];
 
-    var keyCount  = Object.keys(jsonParsed).length;
-    console.log('Parsed JSON data:', keyCount);
- 
-/*
-        for (i = 1; i <= keyCount; i++) {
-          console.log('i:', i);
-          console.log(jsonParsed[i]);
+          console.log('MessageHeader');
+          console.log('Full URL:', fullUrl);
+          console.log('Message ID:', messageId);
+          console.log('Profile:', profile);
+          console.log('---');
+        } else if (entry.resource && entry.resource.resourceType === 'ServiceRequest') {
+          console.log('ServiceRequest');
+          console.log('---');
+        } else if (entry.resource && entry.resource.resourceType === 'Patient') {
+          // Access Patient information
+          const fullUrl = entry.fullUrl;
+          const messageId = entry.resource.id;
+          const patientProfile = entry.resource.meta.profile[0];
+          console.log('Patient');
+          console.log('Patient Profile:', patientProfile);
+          console.log('---');
+        } else if (entry.resource && entry.resource.resourceType === 'Organization') {
+          console.log('Organization');
+          console.log('---');
+        } else if (entry.resource && entry.resource.resourceType === 'Specimen') {
+          console.log('Specimen');
+          console.log('---');
+        } else if (entry.resource && entry.resource.resourceType === 'DiagnosticReport') {
+          console.log('DiagnosticReport');
+          console.log('---');
+        } else if (entry.resource && entry.resource.resourceType === 'Practitioner') {
+          console.log('Practitioner');
+          console.log('---');
+        } else if (entry.resource && entry.resource.resourceType === 'Observation') {
+          console.log('Observation');
+          console.log('---');
+        } else {
+          // Handle other resource types if needed
+          console.log('Unsupported resource type:', entry.resource.resourceType);
         }
-*/
+      });
+    } else {
+      console.log('Invalid JSON structure: Not a FHIR Bundle.');
+    }
 
-      for(var i in jsonParsed) {
-        if ( jsonParsed[i] == "identifier" ){
-          console.log( "FOO!" );
-        }
-        console.log(i + ": " + jsonParsed[i]);
-      }
-
-      res.render("Home", {profile: profile})
+    res.render("Home", {profile: profile})
 
   } catch (parseError) {
     console.error('Error parsing JSON:', parseError);
@@ -72,6 +102,5 @@ fs.readFile(filePath, 'utf8', (err, data) => {
 
 
 });
-
 
 app.listen(port, () => console.log("Server started and listening on port " + port ));
