@@ -5,7 +5,7 @@
         <div class="nhsuk-grid-column-two-thirds">
           
             <table role="table" class="nhsuk-table-responsive">
-            <caption class="nhsuk-table__caption">Pathology response bundle information</caption>
+            <caption class="nhsuk-table__caption">Bundle resource (Pathology response) information</caption>
             <thead role="rowgroup" class="nhsuk-table__head">
                 <tr role="row">
                     <th role="columnheader" class="" scope="col">
@@ -22,7 +22,55 @@
                         <span class="nhsuk-table-responsive__heading">Element </span>Bundle
                     </td>
                     <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">Value </span>{{profile}}
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{bundleProfile}}
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+
+        </div>
+      </div>
+
+      <P>
+
+      <div class="nhsuk-grid-row">
+        <div class="nhsuk-grid-column-two-thirds">
+          
+            <table role="table" class="nhsuk-table-responsive">
+            <caption class="nhsuk-table__caption">MessageHeader resource information</caption>
+            <thead role="rowgroup" class="nhsuk-table__head">
+                <tr role="row">
+                    <th role="columnheader" class="" scope="col">
+                    Element
+                    </th>
+                    <th role="columnheader" class="" scope="col">
+                    Value
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="nhsuk-table__body">
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>Bundle
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{messageHeaderProfile}}
+                    </td>
+                </tr>
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>SNOMED Code
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{messageHeaderCode}}
+                    </td>
+                </tr>
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>SNOMED Preferred Term
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{messageHeaderDesc}}
                     </td>
                 </tr>
             </tbody>
@@ -71,6 +119,54 @@
         </div>
       </div>
 
+    <P>
+     <div class="nhsuk-grid-row">
+        <div class="nhsuk-grid-column-two-thirds">
+          
+            <table role="table" class="nhsuk-table-responsive">
+            <caption class="nhsuk-table__caption">ServiceRequest resource information</caption>
+            <thead role="rowgroup" class="nhsuk-table__head">
+                <tr role="row">
+                    <th role="columnheader" class="" scope="col">
+                    Element
+                    </th>
+                    <th role="columnheader" class="" scope="col">
+                    Value
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="nhsuk-table__body">
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>Bundle
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{serviceRequestProfile}}
+                    </td>
+                </tr>
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>SNOMED Code
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{serviceRequestCode}}
+                    </td>
+                </tr>
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>SNOMED Preferred Term
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{serviceRequestDesc}}
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+
+        </div>
+      </div>
+
+
       <P>
      <div class="nhsuk-grid-row">
         <div class="nhsuk-grid-column-two-thirds">
@@ -118,6 +214,99 @@
         </div>
       </div>
 
+    <P>
+     <div class="nhsuk-grid-row">
+        <div class="nhsuk-grid-column-two-thirds">
+          
+            <table role="table" class="nhsuk-table-responsive">
+            <caption class="nhsuk-table__caption">DiagnosticReport resource information</caption>
+            <thead role="rowgroup" class="nhsuk-table__head">
+                <tr role="row">
+                    <th role="columnheader" class="" scope="col">
+                    Element
+                    </th>
+                    <th role="columnheader" class="" scope="col">
+                    Value
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="nhsuk-table__body">
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>Bundle
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{diagnosticReportProfile}}
+                    </td>
+                </tr>
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>SNOMED Code
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{diagnosticReportCode}}
+                    </td>
+                </tr>
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>SNOMED Preferred Term
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{diagnosticReportDesc}}
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+
+        </div>
+      </div>
+
+    <P>
+     <div class="nhsuk-grid-row">
+        <div class="nhsuk-grid-column-two-thirds">
+          
+            <table role="table" class="nhsuk-table-responsive">
+            <caption class="nhsuk-table__caption">Observation resource information</caption>
+            <thead role="rowgroup" class="nhsuk-table__head">
+                <tr role="row">
+                    <th role="columnheader" class="" scope="col">
+                    Element
+                    </th>
+                    <th role="columnheader" class="" scope="col">
+                    Value
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="nhsuk-table__body">
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>Bundle
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{observationProfile}}
+                    </td>
+                </tr>
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>SNOMED Code
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{observationCode}}
+                    </td>
+                </tr>
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>SNOMED Preferred Term
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{observationDesc}}
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+
+        </div>
+      </div>
 
     </main>
   </div>

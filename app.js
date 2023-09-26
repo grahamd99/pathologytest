@@ -35,19 +35,32 @@ fs.readFile(filePath, 'utf8', (err, data) => {
     return;
   }
 
+  // define variables to be used to pass through values to Handlebars template
+  var messageHeaderProfile= '';
+  var messageHeaderCode = '';
+  var messageHeaderDesc = '';
   var patientProfile = '';
-  var patientNHS = '';
+  var patientNHS = '';          
+  var serviceRequestProfile = '';
+  var serviceRequestCode  = '';
+  var serviceRequestDesc  = '';
   var specimenProfile = '';
-  var specimenTypeCode  = '';
-  var specimenTypeDesc  = '';
+  var specimenTypeCode = '';
+  var specimenTypeDesc = '';
+  var diagnosticReportProfile = '';
+  var diagnosticReportCode = '';
+  var diagnosticReportDesc = '';
+  var observationProfile = '';
+  var observationCode = '';
+  var observationDesc = '';
 
   try {
     const jsonParsed = JSON.parse(data);
     console.log('Parsed JSON data:', jsonParsed);
 
     // access elements to create variables
-    resourceType      = jsonParsed.resourceType;
-    profile           = jsonParsed.meta.profile[0];
+    bundleResourceType      = jsonParsed.resourceType;
+    bundleProfile           = jsonParsed.meta.profile[0];
 
   // Check if the JSON has the expected structure
     if (jsonParsed.resourceType === 'Bundle' && Array.isArray(jsonParsed.entry)) {
@@ -55,17 +68,23 @@ fs.readFile(filePath, 'utf8', (err, data) => {
       jsonParsed.entry.forEach(entry => {
         if (entry.resource && entry.resource.resourceType === 'MessageHeader') {
           // Access MessageHeader information
-          const fullUrl = entry.fullUrl;
-          const messageId = entry.resource.id;
-          const profile = entry.resource.meta.profile[0];
+          //const fullUrl = entry.fullUrl;
+          const messageHeaderId = entry.resource.id;
+          messageHeaderProfile = entry.resource.meta.profile[0];
+          messageHeaderCode = entry.resource.eventCoding.code;
+          messageHeaderDesc = entry.resource.eventCoding.display;
 
           console.log('MessageHeader');
-          console.log('Full URL:', fullUrl);
-          console.log('Message ID:', messageId);
-          console.log('Profile:', profile);
+          //console.log('Full URL:', fullUrl);
+          console.log('MessageHeader ID:', messageHeaderProfile);
+          console.log('MessageHeaderProfile:', messageHeaderProfile);
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'ServiceRequest') {
+          serviceRequestProfile   = entry.resource.meta.profile[0];
+          serviceRequestCode  = entry.resource.code.coding[0].code;
+          serviceRequestDesc  = entry.resource.code.coding[0].display;
           console.log('ServiceRequest');
+          console.log('ServiceRequest Profile:', serviceRequestProfile);
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'Patient') {
           // Access Patient information
@@ -84,15 +103,24 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           specimenTypeCode  = entry.resource.type.coding[0].code;
           specimenTypeDesc  = entry.resource.type.coding[0].display;
           console.log('Specimen');
+          console.log('Specimen Profile:', specimenProfile);
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'DiagnosticReport') {
+          diagnosticReportProfile   = entry.resource.meta.profile[0];
+          diagnosticReportCode  = entry.resource.code.coding[0].code;
+          diagnosticReportDesc  = entry.resource.code.coding[0].display;
           console.log('DiagnosticReport');
+          console.log('DiagnosticReport Profile:', diagnosticReportProfile);
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'Practitioner') {
           console.log('Practitioner');
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'Observation') {
+          observationProfile   = entry.resource.meta.profile[0];
+          observationCode  = entry.resource.code.coding[0].code;;
+          observationDesc  = entry.resource.code.coding[0].display;
           console.log('Observation');
+          console.log('Observation Profile:', observationProfile);
           console.log('---');
         } else {
           // Handle other resource types if needed
@@ -103,8 +131,14 @@ fs.readFile(filePath, 'utf8', (err, data) => {
       console.log('Invalid JSON structure: Not a FHIR Bundle.');
     }
 
-    res.render("Home", {profile: profile, patientProfile: patientProfile, patientNHS: patientNHS,
-                        specimenProfile: specimenProfile, specimenTypeCode: specimenTypeCode, specimenTypeDesc: specimenTypeDesc});
+    res.render("Home", {  bundleProfile :  bundleProfile,
+                          messageHeaderProfile: messageHeaderProfile, messageHeaderCode: messageHeaderCode, messageHeaderDesc: messageHeaderDesc,
+                          patientProfile: patientProfile, patientNHS: patientNHS,
+                          serviceRequestProfile: serviceRequestProfile, serviceRequestCode: serviceRequestCode, serviceRequestDesc: serviceRequestDesc,
+                          specimenProfile: specimenProfile, specimenTypeCode: specimenTypeCode, specimenTypeDesc: specimenTypeDesc,
+                          diagnosticReportProfile: diagnosticReportProfile, diagnosticReportCode: diagnosticReportCode, diagnosticReportDesc: diagnosticReportDesc,
+                          observationProfile: observationProfile, observationCode: observationCode, observationDesc: observationDesc
+                        });
 
   } catch (parseError) {
     console.error('Error parsing JSON:', parseError);
