@@ -25,8 +25,8 @@ app.engine(
   })
 );
 
-const filePath = "./public/examples/pathology_example1.json";
-//const filePath = "./pathology_example2.json";
+//const filePath = "./public/examples/pathology_example1.json";
+const filePath = "./pathology_example2.json";
 
 app.get("/",function(req,res){
 
@@ -48,13 +48,15 @@ fs.readFile(filePath, 'utf8', (err, data) => {
   var specimenProfile = '';
   var specimenTypeCode = '';
   var specimenTypeDesc = '';
+  var specimenCollectedDateTime = '';
   var diagnosticReportProfile = '';
   var diagnosticReportCode = '';
   var diagnosticReportDesc = '';
-  var observationProfile = '';
-  var observationCode = '';
-  var observationDesc = '';
+  var practitionerProfile = '';
+  var practitionerAddress = '';
+  var practitionerName = '';
   global.obsCounter = 0;
+  global.obsProfile = []; 
   global.obsCode = []; 
   global.obsDisplay = []; 
   global.obsValueCode = []; 
@@ -111,6 +113,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           specimenProfile   = entry.resource.meta.profile[0];
           specimenTypeCode  = entry.resource.type.coding[0].code;
           specimenTypeDesc  = entry.resource.type.coding[0].display;
+          specimenCollectedDateTime = entry.resource.collection.collectedDateTime;
           console.log('Specimen');
           console.log('Specimen Profile:', specimenProfile);
           console.log('---');
@@ -122,6 +125,9 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           console.log('DiagnosticReport Profile:', diagnosticReportProfile);
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'Practitioner') {
+          practitionerProfile = entry.resource.meta.profile[0];
+          practitionerAddress = entry.resource.address[0].text;
+          practitionerName    = entry.resource.name[0].text;
           console.log('Practitioner');
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'Observation') {
@@ -130,6 +136,8 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           global.obsCounter++;
           i=global.obsCounter-1;
           console.log('obsCounter =' + obsCounter);
+
+          global.obsProfile[i] = entry.resource.meta.profile[0];
 
           thisCode = entry.resource.code.coding[0].code;
           global.obsCode[i]    = thisCode;   
@@ -158,12 +166,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           console.log('Observation index: ' + i);
           console.log('Observation SNOMED CODE: ' + global.obsCode[i]);
           console.log('Observation SNOMED Display: ' + global.obsDisplay[i]);
-
-          //observationProfile   = entry.resource.meta.profile[0];
-          //observationCode  = entry.resource.code.coding[0].code;
-          //observationDesc  = entry.resource.code.coding[0].display;
           console.log('Observation');
-          //console.log('Observation Profile:', observationProfile);
           console.log('---');
         } else {
           // Handle other resource types if needed
@@ -186,10 +189,10 @@ console.log( obsData );
                           messageHeaderProfile: messageHeaderProfile, messageHeaderCode: messageHeaderCode, messageHeaderDesc: messageHeaderDesc,
                           patientProfile: patientProfile, patientNHS: patientNHS,
                           serviceRequestProfile: serviceRequestProfile, serviceRequestCode: serviceRequestCode, serviceRequestDesc: serviceRequestDesc,
-                          specimenProfile: specimenProfile, specimenTypeCode: specimenTypeCode, specimenTypeDesc: specimenTypeDesc,
-                          diagnosticReportProfile: diagnosticReportProfile, diagnosticReportCode: diagnosticReportCode, diagnosticReportDesc: diagnosticReportDesc,
-                          observationProfile: observationProfile, observationCode: observationCode, observationDesc: observationDesc,
-                          obsCode: global.obsCode, obsDisplay: global.obsDisplay,
+                          specimenProfile: specimenProfile, specimenTypeCode: specimenTypeCode, specimenTypeDesc: specimenTypeDesc, specimenCollectedDateTime: specimenCollectedDateTime,
+                          diagnosticReportProfile: diagnosticReportProfile, diagnosticReportCode: diagnosticReportCode, diagnosticReportDesc: diagnosticReportDesc,  
+                          practitionerProfile: practitionerProfile, practitionerAddress: practitionerAddress, practitionerName: practitionerName,     
+                          obsProfile: global.obsProfile, obsCode: global.obsCode, obsDisplay: global.obsDisplay,
                           obsBodySiteCode: global.obsBodySiteCode, obsBodySiteDisplay: global.obsBodySiteDisplay,
                           obsValueCode: obsValueCode, obsValueDisplay: obsValueDisplay
                         });
