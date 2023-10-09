@@ -26,6 +26,7 @@ app.engine(
 );
 
 const filePath = "./public/examples/pathology_example1.json";
+//const filePath = "./pathology_example2.json";
 
 app.get("/",function(req,res){
 
@@ -53,6 +54,13 @@ fs.readFile(filePath, 'utf8', (err, data) => {
   var observationProfile = '';
   var observationCode = '';
   var observationDesc = '';
+  global.obsCounter = 0;
+  global.obsCode = []; 
+  global.obsDisplay = []; 
+  global.obsValueCode = []; 
+  global.obsValueDisplay = []; 
+  global.obsBodySiteCode = []; 
+  global.obsBodySiteDisplay = []; 
 
   try {
     const jsonParsed = JSON.parse(data);
@@ -65,6 +73,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
   // Check if the JSON has the expected structure
     if (jsonParsed.resourceType === 'Bundle' && Array.isArray(jsonParsed.entry)) {
       // Loop through the 'entry' array
+
       jsonParsed.entry.forEach(entry => {
         if (entry.resource && entry.resource.resourceType === 'MessageHeader') {
           // Access MessageHeader information
@@ -116,20 +125,62 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           console.log('Practitioner');
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'Observation') {
-          observationProfile   = entry.resource.meta.profile[0];
-          observationCode  = entry.resource.code.coding[0].code;;
-          observationDesc  = entry.resource.code.coding[0].display;
+
+
+          global.obsCounter++;
+          i=global.obsCounter-1;
+          console.log('obsCounter =' + obsCounter);
+
+          thisCode = entry.resource.code.coding[0].code;
+          global.obsCode[i]    = thisCode;   
+          global.obsDisplay[i] = entry.resource.code.coding[0].display;
+
+          // hardcoded list of Observation.code SNOMED codes where a bodysite is expected
+          const myList1 = ['1234', '4321'];
+          if ( myList1.indexOf(thisCode) !== -1){
+            global.obsBodySiteCode[i] = entry.resource.bodySite.coding[0].code;   
+            global.obsBodySiteDisplay[i] = entry.resource.bodySite.coding[0].display;   
+          } else {
+            global.obsBodySiteCode[i] = 'N/A';
+            global.obsBodySiteDisplay[i] = 'N/A';
+          }
+
+          // hardcoded list of Observation.code SNOMED codes where a valueCodeableConcept is expected
+          const myList2 = ['9999', '50121000237101'];
+          if ( myList2.indexOf(thisCode) !== -1){
+            global.obsValueCode[i] = entry.resource.valueCodeableConcept.coding[0].code;
+            global.obsValueDisplay[i] = entry.resource.valueCodeableConcept.coding[0].display;
+          } else {
+            global.obsValueCode[i] = 'N/A';
+            global.obsValueDisplay[i] = 'N/A';
+          }
+
+          console.log('Observation index: ' + i);
+          console.log('Observation SNOMED CODE: ' + global.obsCode[i]);
+          console.log('Observation SNOMED Display: ' + global.obsDisplay[i]);
+
+          //observationProfile   = entry.resource.meta.profile[0];
+          //observationCode  = entry.resource.code.coding[0].code;
+          //observationDesc  = entry.resource.code.coding[0].display;
           console.log('Observation');
-          console.log('Observation Profile:', observationProfile);
+          //console.log('Observation Profile:', observationProfile);
           console.log('---');
         } else {
           // Handle other resource types if needed
           console.log('Unsupported resource type:', entry.resource.resourceType);
         }
-      });
+      });    
     } else {
       console.log('Invalid JSON structure: Not a FHIR Bundle.');
     }
+
+    // Create an object containing the arrays
+    const obsData = {
+      obsCode: global.obsCode,
+      obsDisplay: global.obsDisplay,
+    };
+
+console.log( obsData );
 
     res.render("Home", {  bundleProfile :  bundleProfile,
                           messageHeaderProfile: messageHeaderProfile, messageHeaderCode: messageHeaderCode, messageHeaderDesc: messageHeaderDesc,
@@ -137,7 +188,10 @@ fs.readFile(filePath, 'utf8', (err, data) => {
                           serviceRequestProfile: serviceRequestProfile, serviceRequestCode: serviceRequestCode, serviceRequestDesc: serviceRequestDesc,
                           specimenProfile: specimenProfile, specimenTypeCode: specimenTypeCode, specimenTypeDesc: specimenTypeDesc,
                           diagnosticReportProfile: diagnosticReportProfile, diagnosticReportCode: diagnosticReportCode, diagnosticReportDesc: diagnosticReportDesc,
-                          observationProfile: observationProfile, observationCode: observationCode, observationDesc: observationDesc
+                          observationProfile: observationProfile, observationCode: observationCode, observationDesc: observationDesc,
+                          obsCode: global.obsCode, obsDisplay: global.obsDisplay,
+                          obsBodySiteCode: global.obsBodySiteCode, obsBodySiteDisplay: global.obsBodySiteDisplay,
+                          obsValueCode: obsValueCode, obsValueDisplay: obsValueDisplay
                         });
 
   } catch (parseError) {
