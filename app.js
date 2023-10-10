@@ -25,8 +25,15 @@ app.engine(
   })
 );
 
-//const filePath = "./public/examples/pathology_example1.json";
-const filePath = "./pathology_example2.json";
+const filePath = "./public/examples/pathology_example1.json";
+//const filePath = "./pathology_example2.json";
+
+/*
+var hbs = handlebars.create({});
+hbs.handlebars.registerHelper("compareStrings", function (p, q, options) {
+  return p == q ? options.fn(this) : options.inverse(this);
+});
+*/
 
 app.get("/",function(req,res){
 
@@ -48,6 +55,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
   var specimenProfile = '';
   var specimenTypeCode = '';
   var specimenTypeDesc = '';
+  var specimenIdentifier = '';
   var specimenCollectedDateTime = '';
   var diagnosticReportProfile = '';
   var diagnosticReportCode = '';
@@ -114,6 +122,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           specimenTypeCode  = entry.resource.type.coding[0].code;
           specimenTypeDesc  = entry.resource.type.coding[0].display;
           specimenCollectedDateTime = entry.resource.collection.collectedDateTime;
+          specimenIdentifier        = entry.resource.identifier[0].value;
           console.log('Specimen');
           console.log('Specimen Profile:', specimenProfile);
           console.log('---');
@@ -189,7 +198,8 @@ console.log( obsData );
                           messageHeaderProfile: messageHeaderProfile, messageHeaderCode: messageHeaderCode, messageHeaderDesc: messageHeaderDesc,
                           patientProfile: patientProfile, patientNHS: patientNHS,
                           serviceRequestProfile: serviceRequestProfile, serviceRequestCode: serviceRequestCode, serviceRequestDesc: serviceRequestDesc,
-                          specimenProfile: specimenProfile, specimenTypeCode: specimenTypeCode, specimenTypeDesc: specimenTypeDesc, specimenCollectedDateTime: specimenCollectedDateTime,
+                          specimenProfile: specimenProfile, specimenTypeCode: specimenTypeCode, specimenTypeDesc: specimenTypeDesc, 
+                          specimenCollectedDateTime: specimenCollectedDateTime, specimenIdentifier: specimenIdentifier,
                           diagnosticReportProfile: diagnosticReportProfile, diagnosticReportCode: diagnosticReportCode, diagnosticReportDesc: diagnosticReportDesc,  
                           practitionerProfile: practitionerProfile, practitionerAddress: practitionerAddress, practitionerName: practitionerName,     
                           obsProfile: global.obsProfile, obsCode: global.obsCode, obsDisplay: global.obsDisplay,

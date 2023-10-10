@@ -136,6 +136,11 @@
                             "Dr"
                         ]
                     }
+                ],
+                "address":  [
+                    {
+                        "text": "123 Electric Avenue, Suburbia, SE11 5EY, UK"
+                    }
                 ]
             }
         },
