@@ -155,26 +155,29 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           // hardcoded list of Observation.code SNOMED codes where a bodysite is expected
           const myList1 = ['1234', '4321'];
           if ( myList1.indexOf(thisCode) !== -1){
-            global.obsBodySiteCode[i] = entry.resource.bodySite.coding[0].code;   
-            global.obsBodySiteDisplay[i] = entry.resource.bodySite.coding[0].display;   
+            global.obsBodySiteCode[i] = entry.resource.component[0].valueCodeableConcept.coding[0].code;   
+            global.obsBodySiteDisplay[i] = entry.resource.component[0].valueCodeableConcept.coding[0].display;   
           } else {
-            global.obsBodySiteCode[i] = 'N/A';
-            global.obsBodySiteDisplay[i] = 'N/A';
+            global.obsBodySiteCode[i] = '';
+            global.obsBodySiteDisplay[i] = '';
           }
 
-          // hardcoded list of Observation.code SNOMED codes where a valueCodeableConcept is expected
-          const myList2 = ['9999', '50121000237101'];
+          const myList2 = ['9999', '7777'];
           if ( myList2.indexOf(thisCode) !== -1){
             global.obsValueCode[i] = entry.resource.valueCodeableConcept.coding[0].code;
             global.obsValueDisplay[i] = entry.resource.valueCodeableConcept.coding[0].display;
           } else {
-            global.obsValueCode[i] = 'N/A';
-            global.obsValueDisplay[i] = 'N/A';
+            global.obsValueCode[i] = '';
+            global.obsValueDisplay[i] = '';
           }
 
           console.log('Observation index: ' + i);
           console.log('Observation SNOMED CODE: ' + global.obsCode[i]);
           console.log('Observation SNOMED Display: ' + global.obsDisplay[i]);
+          console.log('Observation obsValueCode SNOMED CODE: ' + global.obsValueCode[i]);
+          console.log('Observation obsValueDIsplay SNOMED Display: ' + global.obsValueDisplay[i]);
+          console.log('Observation obsBodySiteCode SNOMED CODE: ' + global.obsBodySiteCode[i]);
+          console.log('Observation obsBodySiteDisplay SNOMED Display: ' + global.obsBodySiteDisplay[i]);
           console.log('Observation');
           console.log('---');
         } else {
@@ -204,7 +207,7 @@ console.log( obsData );
                           practitionerProfile: practitionerProfile, practitionerAddress: practitionerAddress, practitionerName: practitionerName,     
                           obsProfile: global.obsProfile, obsCode: global.obsCode, obsDisplay: global.obsDisplay,
                           obsBodySiteCode: global.obsBodySiteCode, obsBodySiteDisplay: global.obsBodySiteDisplay,
-                          obsValueCode: obsValueCode, obsValueDisplay: obsValueDisplay
+                          obsValueCode: global.obsValueCode, obsValueDisplay: global.obsValueDisplay
                         });
 
   } catch (parseError) {

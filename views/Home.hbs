@@ -369,22 +369,9 @@
                         <span class="nhsuk-table-responsive__heading">Value </span>{{lookup ../obsDisplay @index}}
                     </td>
                 </tr>
-               <tr role="row" class="nhsuk-table__row" >
-                    <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">Element </span>VALUE SNOMED Code
-                    </td>
-                    <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">Value </span>{{lookup ../obsValueCode @index}}
-                    </td>
-                </tr>
-                <tr role="row" class="nhsuk-table__row" >
-                    <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">Element </span>VALUE SNOMED Preferred Term
-                    </td>
-                    <td role="cell" class="nhsuk-table__cell">
-                        <span class="nhsuk-table-responsive__heading">Value </span>{{lookup ../obsValueDisplay @index}}
-                    </td>
-                </tr>
+
+
+
                 <tr role="row" class="nhsuk-table__row" >
                     <td role="cell" class="nhsuk-table__cell">
                         <span class="nhsuk-table-responsive__heading">Element </span>BODY Site SNOMED Code
@@ -401,6 +388,25 @@
                         <span class="nhsuk-table-responsive__heading">Value </span>{{lookup ../obsBodySiteDisplay @index}}
                     </td>
                 </tr>
+
+
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>CSD Result SNOMED Code
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{lookup ../obsValueCode @index}}
+                    </td>
+                </tr>
+                <tr role="row" class="nhsuk-table__row" >
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Element </span>CSD Result SNOMED Preferred Term
+                    </td>
+                    <td role="cell" class="nhsuk-table__cell">
+                        <span class="nhsuk-table-responsive__heading">Value </span>{{lookup ../obsValueDisplay @index}}
+                    </td>
+                </tr>
+
             </tbody>
             </table>
 
