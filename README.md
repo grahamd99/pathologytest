@@ -35,6 +35,11 @@ or
 nodemon ./app.js pathology_example2.json
 ```
 
+4) Access the rendered web page served from local Node.js Express server in e.g. your web browser at
+
+```
+http://localhost:3000/
+```
 
 FHIR bundles from here -> https://simplifier.net/guide/pathology-fhir-implementation-guide/Home/Build/How-to-Construct-a-Pathology-Test-Report-Bundle?version=0.1
 
