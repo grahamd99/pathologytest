@@ -133,4 +133,4 @@ dist
 pathology_example2.json
 
 # exclude example test files folder
-public/examples/
+#public/examples/

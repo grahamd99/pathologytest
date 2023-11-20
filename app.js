@@ -25,15 +25,20 @@ app.engine(
   })
 );
 
-const filePath = "./public/examples/pathology_example1.json";
-//const filePath = "./pathology_example2.json";
+// Access command line arguments starting from index 2
+const args = process.argv.slice(2);
 
-/*
-var hbs = handlebars.create({});
-hbs.handlebars.registerHelper("compareStrings", function (p, q, options) {
-  return p == q ? options.fn(this) : options.inverse(this);
-});
-*/
+// Work out which file to read in
+var filePath;
+// Check if there are not any arguments in which case use default example file
+if (args.length === 0) {
+  console.log('No arguments provided.');
+  filePath = "./public/examples/pathology_example1.json";
+} else {
+  // Use the example file provided via argument
+  console.log('Value of the first argument:', args[0]);
+  filePath = "./public/examples/" + args[0];
+}
 
 app.get("/",function(req,res){
 
@@ -153,24 +158,31 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           global.obsDisplay[i] = entry.resource.code.coding[0].display;
 
           // hardcoded list of Observation.code SNOMED codes where a bodysite is expected
-          const myList1 = ['1234', '4321'];
+          const myList1 = ['1234', '4321','50121000237101'];
           if ( myList1.indexOf(thisCode) !== -1){
-            var bodyStructureNum = entry.resource.component.length;
-            console.log("The number of bodys structures is " + bodyStructureNum );
-            global.obsBodySiteCode[i] = "";
-            global.obsBodySiteDisplay[i] = "";
-            var delim;
-            if ( bodyStructureNum > 1  ){
-              delim = ". ";
+
+            if ( thisCode == '50121000237101' ) {
+              global.obsBodySiteCode[i] = entry.resource.valueCodeableConcept.coding[0].code;
+              global.obsBodySiteDisplay[i] = entry.resource.valueCodeableConcept.coding[0].display;
             } else {
-              delim = "";
-            }
-            for (var x in entry.resource.component ) {
-              console.log( "x=" + x );
-              global.obsBodySiteCode[i]    = global.obsBodySiteCode[i]    + entry.resource.component[x].valueCodeableConcept.coding[0].code + delim;   
-              global.obsBodySiteDisplay[i] = global.obsBodySiteDisplay[i] + entry.resource.component[x].valueCodeableConcept.coding[0].display + delim;   
-            }
-          } else {
+              var bodyStructureNum = entry.resource.component.length;
+              console.log("The number of bodys structures is " + bodyStructureNum );
+              global.obsBodySiteCode[i] = "";
+              global.obsBodySiteDisplay[i] = "";
+              var delim;
+              if ( bodyStructureNum > 1  ){
+                delim = ". ";
+              } else {
+                delim = "";
+              }
+              for (var x in entry.resource.component ) {
+                console.log( "x=" + x );
+                global.obsBodySiteCode[i]    = global.obsBodySiteCode[i]    + entry.resource.component[x].valueCodeableConcept.coding[0].code + delim;   
+                global.obsBodySiteDisplay[i] = global.obsBodySiteDisplay[i] + entry.resource.component[x].valueCodeableConcept.coding[0].display + delim;   
+              }
+            } 
+          } 
+          else {
             global.obsBodySiteCode[i] = '';
             global.obsBodySiteDisplay[i] = '';
           }
