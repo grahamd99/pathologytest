@@ -155,8 +155,21 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           // hardcoded list of Observation.code SNOMED codes where a bodysite is expected
           const myList1 = ['1234', '4321'];
           if ( myList1.indexOf(thisCode) !== -1){
-            global.obsBodySiteCode[i] = entry.resource.component[0].valueCodeableConcept.coding[0].code;   
-            global.obsBodySiteDisplay[i] = entry.resource.component[0].valueCodeableConcept.coding[0].display;   
+            var bodyStructureNum = entry.resource.component.length;
+            console.log("The number of bodys structures is " + bodyStructureNum );
+            global.obsBodySiteCode[i] = "";
+            global.obsBodySiteDisplay[i] = "";
+            var delim;
+            if ( bodyStructureNum > 1  ){
+              delim = ". ";
+            } else {
+              delim = "";
+            }
+            for (var x in entry.resource.component ) {
+              console.log( "x=" + x );
+              global.obsBodySiteCode[i]    = global.obsBodySiteCode[i]    + entry.resource.component[x].valueCodeableConcept.coding[0].code + delim;   
+              global.obsBodySiteDisplay[i] = global.obsBodySiteDisplay[i] + entry.resource.component[x].valueCodeableConcept.coding[0].display + delim;   
+            }
           } else {
             global.obsBodySiteCode[i] = '';
             global.obsBodySiteDisplay[i] = '';
