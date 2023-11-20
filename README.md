@@ -35,7 +35,7 @@ or
 nodemon ./app.js pathology_example2.json
 ```
 
-4) Access the rendered web page served from local Node.js Express server in e.g. your web browser at
+5) Access the rendered web page served from local Node.js Express server in e.g. your web browser at
 
 ```
 http://localhost:3000/
