@@ -1,6 +1,6 @@
 # pathologytest
-Read in Pathology FHIR bundle message and convert in to HTML
-Also decode base64 encoded PDF (if present) and write PDF to local folder
+Read in Pathology FHIR bundle message and convert in to HTML  
+Also decode base64 encoded PDF value (if present) and write PDF to local folder
 
 Install the usual way
 
