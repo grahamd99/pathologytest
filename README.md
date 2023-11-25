@@ -1,5 +1,6 @@
 # pathologytest
 Read in Pathology FHIR bundle message and convert in to HTML
+Also decode base64 encoded PDF (if present) and write PDF to local folder
 
 Install the usual way
 
@@ -23,7 +24,7 @@ or
 nodemon ./app.js 
 ```
 
-4) run it with another pathology FHIR example placed into local \public\examples folder
+4) Or run it with another pathology FHIR example placed into local \private\examples folder
 
 ```
 node ./appjs pathology_example2.json
@@ -35,7 +36,9 @@ or
 nodemon ./app.js pathology_example2.json
 ```
 
-5) Access the rendered web page served from local Node.js Express server in e.g. your web browser at
+If FHIR JSON file contains base64 encoded PDF, running application will decode value and write file to local \private\output folder 
+
+5) Once app is running, access the rendered web page served from local Node.js Express server in e.g. your web browser at
 
 ```
 http://localhost:3000/
