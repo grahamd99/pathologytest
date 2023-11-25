@@ -1,5 +1,3 @@
-//https://waelyasmina.medium.com/a-guide-into-using-handlebars-with-your-express-js-application-22b944443b65
-
 var fs      = require('fs'),
     util    = require('util'),
     express = require('express'),
@@ -28,7 +26,7 @@ app.engine(
 // Access command line arguments starting from index 2
 const args = process.argv.slice(2);
 
-// Work out which file to read in
+// Work out which FHIR file to read in
 var filePath;
 // Check if there are not any arguments in which case use default example file
 if (args.length === 0) {
@@ -37,7 +35,7 @@ if (args.length === 0) {
 } else {
   // Use the example file provided via argument
   console.log('Value of the first argument:', args[0]);
-  filePath = "./public/examples/" + args[0];
+  filePath = "./private/examples/" + args[0];
 }
 
 app.get("/",function(req,res){
@@ -47,6 +45,9 @@ fs.readFile(filePath, 'utf8', (err, data) => {
     console.error('Error reading the JSON file:', err);
     return;
   }
+  
+// PDF Output folder path
+const outputFolderPath = './private/output';
 
   // define variables to be used to pass through values to Handlebars template
   var messageHeaderProfile= '';
@@ -65,6 +66,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
   var diagnosticReportProfile = '';
   var diagnosticReportCode = '';
   var diagnosticReportDesc = '';
+  var diagnosticReportPDFcoded = '';
   var practitionerProfile = '';
   var practitionerAddress = '';
   var practitionerName = '';
@@ -79,7 +81,7 @@ fs.readFile(filePath, 'utf8', (err, data) => {
 
   try {
     const jsonParsed = JSON.parse(data);
-    console.log('Parsed JSON data:', jsonParsed);
+    //console.log('Parsed JSON data:', jsonParsed);
 
     // access elements to create variables
     bundleResourceType      = jsonParsed.resourceType;
@@ -135,6 +137,34 @@ fs.readFile(filePath, 'utf8', (err, data) => {
           diagnosticReportProfile   = entry.resource.meta.profile[0];
           diagnosticReportCode  = entry.resource.code.coding[0].code;
           diagnosticReportDesc  = entry.resource.code.coding[0].display;
+          diagnosticReportPDFcoded = entry.resource.presentedForm[0].data;
+
+          // Ensure the output folder exists
+          if (!fs.existsSync(outputFolderPath)) {
+            fs.mkdirSync(outputFolderPath);
+          }
+
+          // Decode base64 and save the PDF to a file
+          function savePDF(base64Data, outputPath) {
+          const bufferData = Buffer.from(base64Data, 'base64');
+
+          fs.writeFile(outputPath, bufferData, (err) => {
+            if (err) {
+              console.error('Error saving PDF:', err);
+            } else {
+              console.log('PDF saved successfully!');
+            }
+          });
+        }
+
+        // Generate a unique filename for the saved PDF
+        const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+        const pdfFileName = `output_${timestamp}.pdf`;
+        const outputPath = `${outputFolderPath}/${pdfFileName}`;
+
+        // Save the PDF
+        savePDF(diagnosticReportPDFcoded, outputPath);
+
           console.log('DiagnosticReport');
           console.log('DiagnosticReport Profile:', diagnosticReportProfile);
           console.log('---');
