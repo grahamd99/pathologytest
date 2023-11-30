@@ -28,14 +28,18 @@ const args = process.argv.slice(2);
 
 // Work out which FHIR file to read in
 var filePath;
+var containsPDF = false;
 // Check if there are not any arguments in which case use default example file
 if (args.length === 0) {
   console.log('No arguments provided.');
   filePath = "./public/examples/pathology_example1.json";
+  console.log('Value of the containsPDF:', containsPDF);
 } else {
   // Use the example file provided via argument
   console.log('Value of the first argument:', args[0]);
   filePath = "./private/examples/" + args[0];
+  containsPDF = true;
+  console.log('Value of the containsPDF:', containsPDF);
 }
 
 app.get("/",function(req,res){
@@ -137,33 +141,39 @@ const outputFolderPath = './private/output';
           diagnosticReportProfile   = entry.resource.meta.profile[0];
           diagnosticReportCode  = entry.resource.code.coding[0].code;
           diagnosticReportDesc  = entry.resource.code.coding[0].display;
-          diagnosticReportPDFcoded = entry.resource.presentedForm[0].data;
 
-          // Ensure the output folder exists
-          if (!fs.existsSync(outputFolderPath)) {
-            fs.mkdirSync(outputFolderPath);
-          }
+          //diagnosticReportPDFcoded = entry.resource.presentedForm[0].data;
 
-          // Decode base64 and save the PDF to a file
-          function savePDF(base64Data, outputPath) {
-          const bufferData = Buffer.from(base64Data, 'base64');
+          if (containsPDF) {
+            diagnosticReportPDFcoded = entry.resource.presentedForm[0].data;
 
-          fs.writeFile(outputPath, bufferData, (err) => {
-            if (err) {
-              console.error('Error saving PDF:', err);
-            } else {
-              console.log('PDF saved successfully!');
+            // Ensure the output folder exists
+            if (!fs.existsSync(outputFolderPath)) {
+              fs.mkdirSync(outputFolderPath);
             }
-          });
-        }
 
-        // Generate a unique filename for the saved PDF
-        const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
-        const pdfFileName = `output_${timestamp}.pdf`;
-        const outputPath = `${outputFolderPath}/${pdfFileName}`;
+            // Decode base64 and save the PDF to a file
+            function savePDF(base64Data, outputPath) {
+            const bufferData = Buffer.from(base64Data, 'base64');
 
-        // Save the PDF
-        savePDF(diagnosticReportPDFcoded, outputPath);
+            fs.writeFile(outputPath, bufferData, (err) => {
+                if (err) {
+                  console.error('Error saving PDF:', err);
+                } else {
+                  console.log('PDF saved successfully!');
+                }
+              });
+            }
+          
+          // Generate a unique filename for the saved PDF
+          const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+          const pdfFileName = `output_${timestamp}.pdf`;
+          const outputPath = `${outputFolderPath}/${pdfFileName}`;
+
+          // Save the PDF
+          savePDF(diagnosticReportPDFcoded, outputPath);
+
+          }
 
           console.log('DiagnosticReport');
           console.log('DiagnosticReport Profile:', diagnosticReportProfile);
@@ -188,7 +198,7 @@ const outputFolderPath = './private/output';
           global.obsDisplay[i] = entry.resource.code.coding[0].display;
 
           // hardcoded list of Observation.code SNOMED codes where a bodysite is expected
-          const myList1 = ['1234', '4321','50121000237101'];
+          const myList1 = ['1873921000000106', '1873921000000106', '1234', '4321','50121000237101'];
           if ( myList1.indexOf(thisCode) !== -1){
 
             if ( thisCode == '50121000237101' ) {
@@ -217,7 +227,7 @@ const outputFolderPath = './private/output';
             global.obsBodySiteDisplay[i] = '';
           }
 
-          const myList2 = ['9999', '7777'];
+          const myList2 = ['1854971000000106', '9999', '7777'];
           if ( myList2.indexOf(thisCode) !== -1){
             global.obsValueCode[i] = entry.resource.valueCodeableConcept.coding[0].code;
             global.obsValueDisplay[i] = entry.resource.valueCodeableConcept.coding[0].display;
