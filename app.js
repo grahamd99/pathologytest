@@ -198,7 +198,7 @@ const outputFolderPath = './private/output';
           global.obsDisplay[i] = entry.resource.code.coding[0].display;
 
           // hardcoded list of Observation.code SNOMED codes where a bodysite is expected
-          const myList1 = ['1873921000000106', '1873921000000106', '1234', '4321','50121000237101'];
+          const myList1 = ['1873921000000106', '1873931000000108', '1234', '4321','50121000237101'];
           if ( myList1.indexOf(thisCode) !== -1){
 
             if ( thisCode == '50121000237101' ) {
