@@ -54,3 +54,18 @@ https://stackabuse.com/guide-to-handlebars-templating-engine-for-node/
 
 NHS.uk front end library
 https://nhsuk.github.io/nhsuk-frontend/
+
+
+# Docker
+
+This section work in progress ...  
+
+Build Docker image
+```
+docker build -t pathologytest .
+```
+
+Run the Docker Container
+```
+docker run -p 3000:3000 -d pathologytest
+```
