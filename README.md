@@ -1,44 +1,45 @@
 # pathologytest
+
 Read in Pathology FHIR bundle message and convert in to HTML  
 Also decode base64 encoded PDF value (if present) and write PDF to local folder
 
 Install the usual way
 
-1) clone repository locally
+1. clone repository locally
 
-2) install it
+2. install it
 
 ```
 npm install
 ```
 
-3) run it with default provided pathology FHIR example
+3. run it with default provided pathology FHIR example
 
 ```
 node ./appjs
 ```
 
-or 
+or
 
 ```
-nodemon ./app.js 
+nodemon ./app.js
 ```
 
-4) Or run it with another pathology FHIR example (needs to contain encoded PDF in Observation.presentedForm) placed into local \private\examples folder
+4. Or run it with another pathology FHIR example (needs to contain encoded PDF in Observation.presentedForm) placed into local \private\examples folder
 
 ```
 node ./appjs pathology_example2.json
 ```
 
-or 
+or
 
 ```
 nodemon ./app.js pathology_example2.json
 ```
 
-If FHIR JSON file contains base64 encoded PDF, running application will decode value and write file to local \private\output folder 
+If FHIR JSON file contains base64 encoded PDF, running application will decode value and write file to local \private\output folder
 
-5) Once app is running, access the rendered web page served from local Node.js Express server in e.g. your web browser at
+5. Once app is running, access the rendered web page served from local Node.js Express server in e.g. your web browser at
 
 ```
 http://localhost:3000/
@@ -55,17 +56,27 @@ https://stackabuse.com/guide-to-handlebars-templating-engine-for-node/
 NHS.uk front end library
 https://nhsuk.github.io/nhsuk-frontend/
 
+# Prettier
+
+This repo uses https://prettier.io/  
+To format all files with Prettier  
+
+```
+npx prettier . --write
+```
 
 # Docker
 
-This section work in progress ...  
+This section work in progress ...
 
 Build Docker image
+
 ```
 docker build -t pathologytest .
 ```
 
 Run the Docker Container
+
 ```
 docker run -p 3000:3000 -d pathologytest
 ```
