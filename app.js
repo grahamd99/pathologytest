@@ -88,11 +88,11 @@ const outputFolderPath = './private/output';
     //console.log('Parsed JSON data:', jsonParsed);
 
     // access elements to create variables
-    bundleResourceType      = jsonParsed.resourceType;
-    bundleProfile           = jsonParsed.meta.profile[0];
+    //bundleResourceType      = jsonParsed.resourceType;
+    bundleProfile           = jsonParsed.resourceType;
 
   // Check if the JSON has the expected structure
-    if (jsonParsed.resourceType === 'Bundle' && Array.isArray(jsonParsed.entry)) {
+    if (bundleProfile === 'Bundle' && Array.isArray(jsonParsed.entry)) {
       // Loop through the 'entry' array
 
       jsonParsed.entry.forEach(entry => {
@@ -100,7 +100,7 @@ const outputFolderPath = './private/output';
           // Access MessageHeader information
           //const fullUrl = entry.fullUrl;
           const messageHeaderId = entry.resource.id;
-          messageHeaderProfile = entry.resource.meta.profile[0];
+          messageHeaderProfile = entry.resource.resourceType;
           messageHeaderCode = entry.resource.eventCoding.code;
           messageHeaderDesc = entry.resource.eventCoding.display;
 
@@ -110,7 +110,7 @@ const outputFolderPath = './private/output';
           console.log('MessageHeaderProfile:', messageHeaderProfile);
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'ServiceRequest') {
-          serviceRequestProfile   = entry.resource.meta.profile[0];
+          serviceRequestProfile   = entry.resource.resourceType;
           serviceRequestCode  = entry.resource.code.coding[0].code;
           serviceRequestDesc  = entry.resource.code.coding[0].display;
           console.log('ServiceRequest');
@@ -120,7 +120,7 @@ const outputFolderPath = './private/output';
           // Access Patient information
           const fullUrl = entry.fullUrl;
           const messageId = entry.resource.id;
-          patientProfile  = entry.resource.meta.profile[0];
+          patientProfile  = entry.resource.resourceType;
           patientNHS      = entry.resource.identifier[0].value;
           console.log('Patient');
           console.log('Patient Profile:', patientProfile);
@@ -129,7 +129,7 @@ const outputFolderPath = './private/output';
           console.log('Organization');
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'Specimen') {
-          specimenProfile   = entry.resource.meta.profile[0];
+          specimenProfile   = entry.resource.resourceType;
           specimenTypeCode  = entry.resource.type.coding[0].code;
           specimenTypeDesc  = entry.resource.type.coding[0].display;
           specimenCollectedDateTime = entry.resource.collection.collectedDateTime;
@@ -138,7 +138,7 @@ const outputFolderPath = './private/output';
           console.log('Specimen Profile:', specimenProfile);
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'DiagnosticReport') {
-          diagnosticReportProfile   = entry.resource.meta.profile[0];
+          diagnosticReportProfile   = entry.resource.resourceType;
           diagnosticReportCode  = entry.resource.code.coding[0].code;
           diagnosticReportDesc  = entry.resource.code.coding[0].display;
 
@@ -179,7 +179,7 @@ const outputFolderPath = './private/output';
           console.log('DiagnosticReport Profile:', diagnosticReportProfile);
           console.log('---');
         } else if (entry.resource && entry.resource.resourceType === 'Practitioner') {
-          practitionerProfile = entry.resource.meta.profile[0];
+          practitionerProfile = entry.resource.resourceType;
           practitionerAddress = entry.resource.address[0].text;
           practitionerName    = entry.resource.name[0].text;
           console.log('Practitioner');
@@ -191,7 +191,7 @@ const outputFolderPath = './private/output';
           i=global.obsCounter-1;
           console.log('obsCounter =' + obsCounter);
 
-          global.obsProfile[i] = entry.resource.meta.profile[0];
+          global.obsProfile[i] = entry.resource.resourceType;
 
           thisCode = entry.resource.code.coding[0].code;
           global.obsCode[i]    = thisCode;   
