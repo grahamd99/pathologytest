@@ -18,7 +18,7 @@
   "homepage": "https://github.com/grahamd99/pathologytest#readme",
   "dependencies": {
     "body-parser": "^1.20.3",
-    "express": "^4.21.2",
+    "express": "^4.22.0",
     "express-handlebars": "^7.1.2",
     "fs": "^0.0.1-security",
     "gulp-rename": "^2.0.0",
